@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html> <head><title>Delay page</title> <style>
+    .flex-container {
+      display: flex;  flex-direction:row;
+      background-color: red;
+  }
+
+.flex-container > div {  /*div children of the flex container*/
+  background-color: #f1f1f1; 
+  margin: 10px;  padding: 20px;  font-size: 30px;
+}
+
+/* Responsive layout */
+@media (max-width: 600px) { 
+	 .flex-container{
+		 flex-direction:column;
+		 background-color: green;
+	  }
+	}
+</style></head>
+
+
+
+<body>
+	<h2>Sri Lakshmi builds a delaying queue</h2>
+	<label for="input">The input is </label>
+	<input type = "text" id = "input">
+	<div class="flex-container" id="target">
+	  <div class = "delayQ">row item 1</div>   
+	  <div class = "delayQ">row item 2</div>  
+	  <div class = "delayQ">row item 3</div>  
+	</div>
+
+<p> Press the button to create an new element of type div and then add it to the container.
+	</p>
+	<button class = "btn" onclick="NewDiv()">Add Value</button>
+	<br>
+	<input class="btn" type="button" value="get" onclick="get()">
+	<input class = "btn" type="button" value="delay" onclick = "delay()">
+	<input class = "btn" type="button" value="promote" onclick = "promote()">
+
+
+<script>
+function NewDiv(){
+	/* make the div and its text */
+	let element = document.createElement("div")
+	let elementValue = document.getElementById("input").value
+	element.innerHTML = elementValue
+	element.className = "delayQ"
+	element.style.color = "yellow"
+
+	/* add it to the container */
+	let container = document.getElementById('target')
+	container.appendChild(element)
+	
+}
+function get(){
+		let queueItems = document.getElementsByClassName("delayQ")
+		console.log(queueItems)
+		let length = queueItems.length
+		if (length>0){
+			queueItems[length-1].remove()
+		}
+}
+function delay(){
+		let queueItems = document.getElementsByClassName("delayQ")
+		let length = queueItems.length
+		if(length==0 || length==1){
+			console.log("Not enough elements to delay")
+		}else{
+			let removedItem = queueItems[length-1]
+			queueItems[length-1].remove()
+			console.log(removedItem)
+			let container_div = document.getElementById("target")
+			container_div.insertBefore(removedItem,container_div.firstChild)
+		}
+}
+function promote(){
+		let queueItems = document.getElementsByClassName("delayQ")
+		let length = queueItems.length
+		let number = Math.floor(Math.random()* length)
+		let randomNum = queueItems[number]
+		randomNum.parentNode.insertBefore(randomNum,randomNum.parentNode.firstChild)	
+}
+
+ 
+</script>
+</body>
+</html>	
